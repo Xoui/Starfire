@@ -1,0 +1,17 @@
+{
+  "name": "Starfire",
+  "version": "1.0.0",
+  "description": "Made by Xoui",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "type": "module",
+  "keywords": [],
+  "author": "Xoui",
+  "license": "MIT",
+  "dependencies": {
+    "@tomphttp/bare-server-node": "^2.0.3",
+    "express": "^4.18.3"
+  }
+}
