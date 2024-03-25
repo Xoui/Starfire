@@ -16,7 +16,25 @@ const PORT = process.env.PORT || 8080;
 
 app.use(express.static(path.join(__dirname, 'static')));
 
+app.get('/apps/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'static', 'apps.html'));
+  });
+  
 
+
+    const routes = [
+      { path: '/~', file: 'apps.html' },
+      { path: '/0', file: 'tabs.html' },
+      { path: '/1', file: 'go.html' },
+      { path: '/', file: 'index.html' },
+    ]
+  
+    routes.forEach((route) => {
+      app.get(route.path, (req, res) => {
+        res.sendFile(path.join(__dirname, 'static', route.file))
+      })
+    })
+  
 
 
 let server;

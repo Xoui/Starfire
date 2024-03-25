@@ -40,14 +40,6 @@ function dnggon(value, path) {
   });
 }
 
-function go(value) {
-  processUrl(value, '/&');
-}
-
-function now(value) {
-  processUrl(value, '/e');
-}
-
 function blank(value) {
   processUrl(value);
 }
@@ -56,6 +48,7 @@ function isUrl(val = '') {
   if (/^http(s?):\/\//.test(val) || (val.includes('.') && val.substr(0, 1) !== ' ')) return true;
   return false;
 }
+
 
 function openURL(url) {
     window.navigator.serviceWorker
