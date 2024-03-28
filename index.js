@@ -1,41 +1,65 @@
 import express from 'express';
 import { createBareServer } from '@tomphttp/bare-server-node';
 import { fileURLToPath } from 'url';
-import { createServer as createHttpsServer } from 'https';
+import dotenv from 'dotenv';
+dotenv.config();
 import { createServer as createHttpServer } from 'http';
 import { readFileSync, existsSync } from 'fs';
-import path from 'path';
+import path from 'path'; 
+import Passport from 'passport';
+import DiscordStrategy from 'passport-discord';
+const discordClientId = process.env.DISCORD_CLIENT_ID;
+const discordClientSecret = process.env.DISCORD_CLIENT_SECRET;
+const scopes = ['identify', 'email', 'guilds'];
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const bare = createBareServer('/bare/');
-
 const PORT = process.env.PORT || 8080;
+const bare = createBareServer("/bare/");
+dotenv.config();
+
+
+Passport.use(new DiscordStrategy({
+    clientID: process.env.DISCORD_CLIENT_ID,
+    clientSecret: process.env.DISCORD_CLIENT_SECRET,
+    callbackURL: `https://solid-invention-9prrggw4vp727rxg-8080.app.github.dev/auth/discord/callback`,
+    scope: ['identify', 'email', 'guilds'],
+  },
+  function(accessToken, refreshToken, profile, cb){
+    return cb(null, profile);
+  }
+));
+
+
+app.get('/auth/discord', Passport.authenticate('discord'));
+
+app.get('/auth/discord/callback', Passport.authenticate('discord', {
+    failureRedirect: '/'
+}), function(req, res) {
+    res.redirect('/apps/'); // Successful auth
+});
 
 app.use(express.static(path.join(__dirname, 'static')));
 
 app.get('/apps/', (req, res) => {
     res.sendFile(path.join(__dirname, 'static', 'apps.html'));
-  });
-  
+});
 
+const routes = [
+    { path: '/~', file: 'apps.html' },
+    { path: '/0', file: 'tabs.html' },
+    { path: '/1', file: 'go.html' },
+    { path: '/', file: 'index.html' },
+];
 
-    const routes = [
-      { path: '/~', file: 'apps.html' },
-      { path: '/0', file: 'tabs.html' },
-      { path: '/1', file: 'go.html' },
-      { path: '/', file: 'index.html' },
-    ]
-  
-    routes.forEach((route) => {
-      app.get(route.path, (req, res) => {
-        res.sendFile(path.join(__dirname, 'static', route.file))
-      })
-    })
-  
-
+routes.forEach((route) => {
+    app.get(route.path, (req, res) => {
+        res.sendFile(path.join(__dirname, 'static', route.file));
+    });
+});
 
 let server;
 
