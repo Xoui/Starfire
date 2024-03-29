@@ -2,12 +2,14 @@ import express from 'express';
 import { createBareServer } from '@tomphttp/bare-server-node';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
+import fs from 'fs';
 dotenv.config();
 import { createServer as createHttpServer } from 'http';
-import { readFileSync, existsSync } from 'fs';
+import { readFileSync, existsSync, } from 'fs';
 import path from 'path'; 
 import Passport from 'passport';
 import DiscordStrategy from 'passport-discord';
+import { time } from 'console';
 const discordClientId = process.env.DISCORD_CLIENT_ID;
 const discordClientSecret = process.env.DISCORD_CLIENT_SECRET;
 const scopes = ['identify', 'email', 'guilds'];
@@ -25,24 +27,33 @@ dotenv.config();
 Passport.use(new DiscordStrategy({
     clientID: process.env.DISCORD_CLIENT_ID,
     clientSecret: process.env.DISCORD_CLIENT_SECRET,
-    callbackURL: `https://solid-invention-9prrggw4vp727rxg-8080.app.github.dev/auth/discord/callback`,
+    callbackURL: `http://localhost:${PORT}/auth/discord/callback`,
     scope: ['identify', 'email', 'guilds'],
   },
-  function(accessToken, refreshToken, profile, cb){
-    return cb(null, profile);
+  function(accessToken, refreshToken, profile, cb) {
+    // Write user data to a text file
+    fs.appendFile('users.txt', JSON.stringify(profile) + '\n', (err) => {
+        if (err) {
+            console.error('Error writing user data to file:', err);
+            return cb(err);
+        }
+        console.log('User data written to file:', profile);
+        return cb(null, profile);
+    });
   }
 ));
-
 
 app.get('/auth/discord', Passport.authenticate('discord'));
 
 app.get('/auth/discord/callback', Passport.authenticate('discord', {
     failureRedirect: '/'
 }), function(req, res) {
-    res.redirect('/apps/'); // Successful auth
+    res.redirect('/apps/'); 
+    // Get down on your knees and pray to god this work
 });
 
 app.use(express.static(path.join(__dirname, 'static')));
+
 
 app.get('/apps/', (req, res) => {
     res.sendFile(path.join(__dirname, 'static', 'apps.html'));
