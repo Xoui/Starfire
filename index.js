@@ -4,16 +4,17 @@ import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import fs from 'fs';
 dotenv.config();
-import { createServer as createHttpServer } from 'http';
+import { createServer as createHttpServer} from 'http';
 import { readFileSync, existsSync, } from 'fs';
 import path from 'path'; 
 import Passport from 'passport';
 import DiscordStrategy from 'passport-discord';
-import { time } from 'console';
-const discordClientId = process.env.DISCORD_CLIENT_ID;
-const discordClientSecret = process.env.DISCORD_CLIENT_SECRET;
-const scopes = ['identify', 'email', 'guilds'];
 
+// finna gonna go crazy 😭
+
+var server = createHttpServer((req, res) => {
+    
+  });
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -23,11 +24,18 @@ const PORT = process.env.PORT || 8080;
 const bare = createBareServer("/bare/");
 dotenv.config();
 
+  
+  server.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
+
+// Construct the callback URL
+const callbackURL = '/auth/discord/callback';
 
 Passport.use(new DiscordStrategy({
     clientID: process.env.DISCORD_CLIENT_ID,
     clientSecret: process.env.DISCORD_CLIENT_SECRET,
-    callbackURL: `http://localhost:${PORT}/auth/discord/callback`,
+    callbackURL: callbackURL,
     scope: ['identify', 'email', 'guilds'],
   },
   function(accessToken, refreshToken, profile, cb) {
@@ -45,12 +53,14 @@ Passport.use(new DiscordStrategy({
 
 app.get('/auth/discord', Passport.authenticate('discord'));
 
-app.get('/auth/discord/callback', Passport.authenticate('discord', {
-    failureRedirect: '/'
-}), function(req, res) {
-    res.redirect('/apps/'); 
-    // Get down on your knees and pray to god this work
+app.get('/auth/discord/callback', (req, res, next) => {
+    if (req.query && req.query.code) {
+        res.redirect('/apps/');
+    } else {
+        res.redirect('/');
+    }
 });
+
 
 app.use(express.static(path.join(__dirname, 'static')));
 
@@ -72,7 +82,6 @@ routes.forEach((route) => {
     });
 });
 
-let server;
 
 if (existsSync(path.join(__dirname, 'key.pem')) && existsSync(path.join(__dirname, 'cert.pem'))) {
     const options = {

@@ -9,7 +9,7 @@ const scopes = ['identify', 'email', 'guilds'];
 Passport.use(new discordauth({
     clientID: discordClientId,
     clientSecret: discordClientSecret,
-    callbackURL: `http://localhost:${PORT}/auth/discord/callback`,
+    callbackURL: `/auth/discord/callback`,
     scope: scopes,
 },
 function(accessToken, refreshToken, profile, cb){
