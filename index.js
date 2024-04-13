@@ -1,16 +1,13 @@
 import express from 'express';
 import { createBareServer } from '@tomphttp/bare-server-node';
 import { fileURLToPath } from 'url';
-import dotenv from 'dotenv';
 import fs from 'fs';
-dotenv.config();
 import { createServer as createHttpServer} from 'http';
 import { readFileSync, existsSync, } from 'fs';
 import path from 'path'; 
-import Passport from 'passport';
-import DiscordStrategy from 'passport-discord';
 
-// finna gonna go crazy 😭
+
+
 
 var server = createHttpServer((req, res) => {
     
@@ -30,37 +27,8 @@ dotenv.config();
   });
 
 // Construct the callback URL
-const callbackURL = '/auth/discord/callback';
 
-Passport.use(new DiscordStrategy({
-    clientID: process.env.DISCORD_CLIENT_ID,
-    clientSecret: process.env.DISCORD_CLIENT_SECRET,
-    callbackURL: callbackURL,
-    scope: ['identify', 'email', 'guilds'],
-  },
-  function(accessToken, refreshToken, profile, cb) {
-    // Write user data to a text file
-    fs.appendFile('users.txt', JSON.stringify(profile) + '\n', (err) => {
-        if (err) {
-            console.error('Error writing user data to file:', err);
-            return cb(err);
-        }
-        console.log('User data written to file:', profile);
-        return cb(null, profile);
-    });
-  }
-));
-
-app.get('/auth/discord', Passport.authenticate('discord'));
-
-app.get('/auth/discord/callback', (req, res, next) => {
-    if (req.query && req.query.code) {
-        res.redirect('/apps/');
-    } else {
-        res.redirect('/');
-    }
-});
-
+ 
 
 app.use(express.static(path.join(__dirname, 'static')));
 
