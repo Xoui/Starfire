@@ -1,13 +1,28 @@
-body {
-    font-family: 'Roboto', sans-serif;
-    font-size: 16px;
-    line-height: 1.5;
-    background-color: aqua;
-    background-image: url(https://media.wbur.org/wp/2022/07/main_image_star-forming_region_carina_nircam_final-5mb.jpeg); 
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: fixed; /* Keeps the background fixed while scrolling */
-  }
+
+.button-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 700px; /* Adjust the max-width as needed */
+  margin: 0 auto; /* Centers the container */
+}
+
+button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.2s ease-in-out;
+  margin-bottom: 10px; /* Adjust the margin between buttons */
 
   
+}
 
+button:hover {
+  transform: scale(1.1);
+}
+
+img {
+  width: 170px;
+  border-radius: 10px; /* Optional: Adds rounded corners to the image */
+}

@@ -8,7 +8,6 @@ import path from 'path';
 
 
 
-
 var server = createHttpServer((req, res) => {
     
   });
@@ -19,16 +18,8 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 8080;
 const bare = createBareServer("/bare/");
-dotenv.config();
 
-  
-  server.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-  });
 
-// Construct the callback URL
-
- 
 
 app.use(express.static(path.join(__dirname, 'static')));
 
