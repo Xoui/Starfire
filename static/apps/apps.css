@@ -1,3 +1,8 @@
+body {
+
+  background-image: url("background.gif");
+}
+
 
 .button-container {
   display: flex;
