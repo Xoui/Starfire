@@ -54,3 +54,15 @@ body {
     z-index: 9999;
     
 }
+
+#cog-icon {
+  position: fixed;
+  top: 0; /* Position at the top */
+  right: 10; /* Position at the right */
+  margin-top: 20px; 
+  display: inline-block; /* Ensure the div behaves like an inline element */
+  margin-right: 20px; 
+  font-size: 24px;
+  z-index: 9999;
+  
+}

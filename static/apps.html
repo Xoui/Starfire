@@ -8,6 +8,18 @@
     
 </head>
 <body>
+
+    <video autoplay muted loop id="video-background">
+        <source src="./background.mp4" type="video/mp4">
+      </video>
+      
+      <script src="../index.js"></script>
+<script src="../uv/uv.bundle.js"></script>
+<script src="../uv/uv.config.js"></script>
+<script src="../register-sw.js"></script>
+
+
+
             <div>
         <button onclick="openURL('https://amazon.com/')">
             <img src="/assets/amazon.webp"/>
@@ -186,5 +198,31 @@
         </button>
         
      </div>
+
+     <video autoplay muted loop id="video-background">
+        <source src="./background.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      
+
+
+
+      <script src="./index.js"></script>
+<script src="./uv/uv.bundle.js"></script>
+<script src="./uv/uv.config.js"></script>
+<script src="./register-sw.js"></script>
+
+
+     <script>
+        
+
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+    var video = document.getElementById('video-background');
+    video.play();
+});
+
+     </script>
 </body>
     

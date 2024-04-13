@@ -13,6 +13,8 @@ if (form && input) {
   });
 }
 
+
+
 function registerServiceWorker() {
   return window.navigator.serviceWorker.register('./sw.js', {
     scope: __uv$config.prefix,
@@ -60,10 +62,8 @@ function openURL(url) {
       else if (!(url.startsWith("https://") || url.startsWith("http://")))
         url = "http://" + url;
 
-      if (getAboutBlank() === 'on') {
-        openAboutBlank(window.location.href.slice(0, -1) + __uv$config.prefix + __uv$config.encodeUrl(url));
-      } else {
-        processUrl(url, '/go.html');
-      }
+      
+        dnggon(url, '/go.html');
+      
     });
 };
