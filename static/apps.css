@@ -38,6 +38,7 @@ button:hover {
 }
 
 img {
+  height: 170px;
   width: 170px;
   border-radius: 10px; /* Optional: Adds rounded corners to the image */
 }
