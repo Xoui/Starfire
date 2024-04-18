@@ -4,7 +4,7 @@ body {
     font-size: 16px;
     line-height: 1.5;
     background-color: aqua;
-    background-image: url(https://media.wbur.org/wp/2022/07/main_image_star-forming_region_carina_nircam_final-5mb.jpeg); 
+    background-image: url(../background.png);  
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed; /* Keeps the background fixed while scrolling */

@@ -1,18 +1,7 @@
-body {
-
-  background-image: url("background.gif");
-}
 
 
-#video-background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%; /* Adjust the width as needed */
-  height: 100%; /* Adjust the height as needed */
-  object-fit: cover;
-  z-index: -1;
-}
+
+
 
 .button-container {
   display: flex;

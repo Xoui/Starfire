@@ -12,8 +12,19 @@
 <body>
 
     <video autoplay muted loop id="video-background">
-        <source src="./background.mp4" type="video/mp4">
+        <source src="app.mp4" type="video/mp4">
       </video>
+      <style>
+        #video-background{
+            position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%; /* Adjust the width as needed */
+  height: 100%; /* Adjust the height as needed */
+  object-fit: cover;
+  z-index: -1;
+        }
+      </style>
       
       <script src="../index.js"></script>
 <script src="../uv/uv.bundle.js"></script>
